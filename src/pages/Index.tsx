@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Camera, Info } from "lucide-react";
+import { Camera, Info, History as HistoryIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Index = () => {
@@ -17,8 +17,16 @@ const Index = () => {
     <div className="min-h-screen bg-medical-50 flex flex-col">
       {/* Header */}
       <header className="py-6 px-4 bg-white shadow-sm">
-        <div className="container max-w-md">
+        <div className="container max-w-md flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-gray-900">Escáner de Recetas</h1>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-full"
+            onClick={() => navigate("/history")}
+          >
+            <HistoryIcon className="h-5 w-5" />
+          </Button>
         </div>
       </header>
 

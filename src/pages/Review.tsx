@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Check, RotateCcw } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { ArrowLeft, Check, RotateCcw, Calendar, User, FileText } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -10,9 +11,14 @@ const Review = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [recognizedText, setRecognizedText] = useState(
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-  );
+  const [prescriptionData, setPrescriptionData] = useState({
+    doctor: "",
+    patient: "",
+    date: new Date().toISOString().split('T')[0],
+    medicine: "",
+    dosage: "",
+    instructions: "",
+  });
 
   const photo = location.state?.photo;
 
@@ -26,7 +32,7 @@ const Review = () => {
     // Simulate API call
     setTimeout(() => {
       toast.success("Receta procesada correctamente");
-      navigate("/");
+      navigate("/history");
     }, 1500);
   };
 
@@ -49,7 +55,7 @@ const Review = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 container max-w-md py-6 px-4 space-y-6 animate-fadeIn">
+      <main className="flex-1 container max-w-md py-6 px-4 space-y-6 animate-fadeIn overflow-auto">
         {/* Image Preview */}
         <div className="bg-white rounded-xl p-2 shadow-sm">
           <img
@@ -59,17 +65,80 @@ const Review = () => {
           />
         </div>
 
-        {/* Text Recognition Result */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">
-            Texto Reconocido
-          </label>
-          <Textarea
-            value={recognizedText}
-            onChange={(e) => setRecognizedText(e.target.value)}
-            className="min-h-[200px] bg-white"
-            placeholder="El texto reconocido aparecerá aquí..."
-          />
+        {/* Prescription Details Form */}
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Fecha
+              </label>
+              <div className="relative">
+                <Calendar className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+                <Input
+                  type="date"
+                  value={prescriptionData.date}
+                  onChange={(e) => setPrescriptionData(prev => ({...prev, date: e.target.value}))}
+                  className="pl-9"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Doctor
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+                <Input
+                  value={prescriptionData.doctor}
+                  onChange={(e) => setPrescriptionData(prev => ({...prev, doctor: e.target.value}))}
+                  placeholder="Nombre del doctor"
+                  className="pl-9"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Paciente
+            </label>
+            <div className="relative">
+              <User className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+              <Input
+                value={prescriptionData.patient}
+                onChange={(e) => setPrescriptionData(prev => ({...prev, patient: e.target.value}))}
+                placeholder="Nombre del paciente"
+                className="pl-9"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Medicamento y Dosis
+            </label>
+            <div className="relative">
+              <FileText className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+              <Input
+                value={prescriptionData.medicine}
+                onChange={(e) => setPrescriptionData(prev => ({...prev, medicine: e.target.value}))}
+                placeholder="Ej: Paracetamol 500mg"
+                className="pl-9"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Instrucciones
+            </label>
+            <Textarea
+              value={prescriptionData.instructions}
+              onChange={(e) => setPrescriptionData(prev => ({...prev, instructions: e.target.value}))}
+              className="min-h-[100px] bg-white"
+              placeholder="Instrucciones de uso..."
+            />
+          </div>
         </div>
 
         {/* Action Buttons */}
