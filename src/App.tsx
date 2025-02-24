@@ -8,6 +8,8 @@ import Index from "./pages/Index";
 import Scan from "./pages/Scan";
 import Review from "./pages/Review";
 import History from "./pages/History";
+import Profile from "./pages/Profile";
+import FAQ from "./pages/FAQ";
 import PrescriptionDetail from "./pages/PrescriptionDetail";
 import NotFound from "./pages/NotFound";
 
@@ -24,6 +26,8 @@ const App = () => (
           <Route path="/scan" element={<Scan />} />
           <Route path="/review" element={<Review />} />
           <Route path="/history" element={<History />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/faq" element={<FAQ />} />
           <Route path="/prescription/:id" element={<PrescriptionDetail />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
