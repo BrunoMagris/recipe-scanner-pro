@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Calendar, User, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 const History = () => {
   const navigate = useNavigate();
   
-  // Datos de ejemplo - en una implementación real vendrían de una base de datos
   const prescriptions = [
     {
       id: 1,
@@ -73,7 +71,7 @@ const History = () => {
             <Button
               variant="outline"
               className="w-full mt-2"
-              onClick={() => navigate(`/review/${prescription.id}`)}
+              onClick={() => navigate(`/prescription/${prescription.id}`)}
             >
               Ver Detalles
             </Button>

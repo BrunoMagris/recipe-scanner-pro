@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, Check, RotateCcw, Calendar, User, FileText } from "lucide-react";
+import { ArrowLeft, Check, RotateCcw, Calendar, User, FileText, Pill, Clock } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -17,7 +17,10 @@ const Review = () => {
     date: new Date().toISOString().split('T')[0],
     medicine: "",
     dosage: "",
+    frequency: "",
+    duration: "",
     instructions: "",
+    notes: "",
   });
 
   const photo = location.state?.photo;
@@ -50,7 +53,7 @@ const Review = () => {
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <h1 className="text-lg font-semibold text-gray-900">Revisar Receta</h1>
-          <div className="w-9" /> {/* Spacer for alignment */}
+          <div className="w-9" />
         </div>
       </header>
 
@@ -115,17 +118,55 @@ const Review = () => {
 
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-700">
-              Medicamento y Dosis
+              Medicamento
             </label>
             <div className="relative">
-              <FileText className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+              <Pill className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
               <Input
                 value={prescriptionData.medicine}
                 onChange={(e) => setPrescriptionData(prev => ({...prev, medicine: e.target.value}))}
-                placeholder="Ej: Paracetamol 500mg"
+                placeholder="Nombre del medicamento"
                 className="pl-9"
               />
             </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Dosis
+              </label>
+              <Input
+                value={prescriptionData.dosage}
+                onChange={(e) => setPrescriptionData(prev => ({...prev, dosage: e.target.value}))}
+                placeholder="Ej: 500mg"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Frecuencia
+              </label>
+              <div className="relative">
+                <Clock className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+                <Input
+                  value={prescriptionData.frequency}
+                  onChange={(e) => setPrescriptionData(prev => ({...prev, frequency: e.target.value}))}
+                  placeholder="Ej: Cada 8 horas"
+                  className="pl-9"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Duración del tratamiento
+            </label>
+            <Input
+              value={prescriptionData.duration}
+              onChange={(e) => setPrescriptionData(prev => ({...prev, duration: e.target.value}))}
+              placeholder="Ej: 7 días"
+            />
           </div>
 
           <div className="space-y-2">
@@ -136,7 +177,19 @@ const Review = () => {
               value={prescriptionData.instructions}
               onChange={(e) => setPrescriptionData(prev => ({...prev, instructions: e.target.value}))}
               className="min-h-[100px] bg-white"
-              placeholder="Instrucciones de uso..."
+              placeholder="Instrucciones específicas de uso..."
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Notas adicionales
+            </label>
+            <Textarea
+              value={prescriptionData.notes}
+              onChange={(e) => setPrescriptionData(prev => ({...prev, notes: e.target.value}))}
+              className="min-h-[80px] bg-white"
+              placeholder="Notas o comentarios adicionales..."
             />
           </div>
         </div>
