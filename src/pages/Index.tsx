@@ -1,5 +1,5 @@
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Camera, History as HistoryIcon, Calendar, Pill, Upload } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -10,22 +10,14 @@ const Index = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [recentPrescriptions, setRecentPrescriptions] = useState<any[]>([]);
 
-  // Datos de ejemplo para las últimas recetas
-  const recentPrescriptions = [
-    {
-      id: 1,
-      medicine: "Paracetamol",
-      dosage: "500mg",
-      date: "15 Mar 2024",
-    },
-    {
-      id: 2,
-      medicine: "Amoxicilina",
-      dosage: "250mg",
-      date: "14 Mar 2024",
-    }
-  ];
+  useEffect(() => {
+    // Cargar las recetas más recientes del localStorage
+    const savedPrescriptions = JSON.parse(localStorage.getItem('prescriptions') || '[]');
+    // Tomar solo las 2 más recientes
+    setRecentPrescriptions(savedPrescriptions.slice(0, 2));
+  }, []);
 
   const handleScan = () => {
     setLoading(true);
@@ -114,25 +106,31 @@ const Index = () => {
         <div className="space-y-4">
           <h2 className="text-lg font-semibold text-[#333333]">Recetas Recientes</h2>
           <div className="space-y-3">
-            {recentPrescriptions.map((prescription) => (
-              <button
-                key={prescription.id}
-                onClick={() => navigate(`/prescription/${prescription.id}`)}
-                className="w-full bg-white rounded-xl p-4 flex items-center space-x-4 hover:bg-gray-50 transition-colors shadow-sm"
-              >
-                <div className="bg-[#5AB9EA]/10 p-3 rounded-lg">
-                  <Pill className="h-6 w-6 text-[#5AB9EA]" />
-                </div>
-                <div className="flex-1 text-left">
-                  <h3 className="text-[#333333] font-medium">{prescription.medicine}</h3>
-                  <p className="text-sm text-gray-500">{prescription.dosage}</p>
-                </div>
-                <div className="flex items-center text-gray-400 text-sm">
-                  <Calendar className="h-4 w-4 mr-1" />
-                  {prescription.date}
-                </div>
-              </button>
-            ))}
+            {recentPrescriptions.length === 0 ? (
+              <div className="text-center py-4 text-gray-500">
+                No hay recetas recientes
+              </div>
+            ) : (
+              recentPrescriptions.map((prescription) => (
+                <button
+                  key={prescription.id}
+                  onClick={() => navigate(`/prescription/${prescription.id}`)}
+                  className="w-full bg-white rounded-xl p-4 flex items-center space-x-4 hover:bg-gray-50 transition-colors shadow-sm"
+                >
+                  <div className="bg-[#5AB9EA]/10 p-3 rounded-lg">
+                    <Pill className="h-6 w-6 text-[#5AB9EA]" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <h3 className="text-[#333333] font-medium">{prescription.medicine}</h3>
+                    <p className="text-sm text-gray-500">{prescription.dosage}</p>
+                  </div>
+                  <div className="flex items-center text-gray-400 text-sm">
+                    <Calendar className="h-4 w-4 mr-1" />
+                    {prescription.date}
+                  </div>
+                </button>
+              ))
+            )}
           </div>
         </div>
       </main>
