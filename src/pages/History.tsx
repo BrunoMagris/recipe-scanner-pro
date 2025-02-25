@@ -1,9 +1,10 @@
 
 import { Button } from "@/components/ui/button";
-import { Calendar, User, FileText } from "lucide-react";
+import { Calendar, User, FileText, Trash2, Edit } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const History = () => {
   const navigate = useNavigate();
@@ -14,6 +15,15 @@ const History = () => {
     const savedPrescriptions = JSON.parse(localStorage.getItem('prescriptions') || '[]');
     setPrescriptions(savedPrescriptions);
   }, []);
+
+  const handleDelete = (id: number) => {
+    if (confirm('¿Estás seguro de que deseas eliminar esta receta?')) {
+      const updatedPrescriptions = prescriptions.filter((p: any) => p.id !== id);
+      localStorage.setItem('prescriptions', JSON.stringify(updatedPrescriptions));
+      setPrescriptions(updatedPrescriptions);
+      toast.success('Receta eliminada correctamente');
+    }
+  };
   
   return (
     <div className="min-h-screen bg-[#F8F9FA] flex flex-col pb-20">
@@ -64,13 +74,31 @@ const History = () => {
                 </p>
               </div>
 
-              <Button
-                variant="outline"
-                className="w-full mt-2"
-                onClick={() => navigate(`/prescription/${prescription.id}`)}
-              >
-                Ver Detalles
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => navigate(`/prescription/${prescription.id}`)}
+                >
+                  Ver Detalles
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="text-blue-600 hover:text-blue-700"
+                  onClick={() => navigate(`/edit/${prescription.id}`)}
+                >
+                  <Edit className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="text-red-600 hover:text-red-700"
+                  onClick={() => handleDelete(prescription.id)}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           ))
         )}
