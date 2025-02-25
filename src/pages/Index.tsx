@@ -1,13 +1,15 @@
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Camera, History as HistoryIcon, Calendar, Pill } from "lucide-react";
+import { Camera, History as HistoryIcon, Calendar, Pill, Upload } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
+import { toast } from "sonner";
 
 const Index = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Datos de ejemplo para las últimas recetas
   const recentPrescriptions = [
@@ -28,6 +30,23 @@ const Index = () => {
   const handleScan = () => {
     setLoading(true);
     navigate("/scan");
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        toast.error("Por favor, selecciona una imagen válida");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const photo = e.target?.result as string;
+        navigate("/review", { state: { photo } });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -74,6 +93,22 @@ const Index = () => {
             </div>
           </button>
         </div>
+
+        {/* Upload Button */}
+        <button
+          onClick={() => fileInputRef.current?.click()}
+          className="w-full bg-[#5AB9EA] hover:bg-[#236B8E] text-white p-6 rounded-xl flex items-center justify-center space-x-3 transition-colors"
+        >
+          <Upload className="h-6 w-6" />
+          <span className="font-medium">Subir imagen de receta</span>
+        </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleFileUpload}
+        />
 
         {/* Recent Prescriptions */}
         <div className="space-y-4">

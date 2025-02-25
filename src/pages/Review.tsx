@@ -31,9 +31,23 @@ const Review = () => {
 
   const handleConfirm = () => {
     setLoading(true);
-    // Simulate API call
+    // Simular guardado en el historial
+    const newPrescription = {
+      id: Date.now(), // Generar ID único
+      ...prescriptionData,
+      status: "Procesada",
+      photo: photo
+    };
+
+    // En un caso real, esto se guardaría en una base de datos
+    // Por ahora, podríamos usar localStorage para persistir los datos
+    const savedPrescriptions = JSON.parse(localStorage.getItem('prescriptions') || '[]');
+    savedPrescriptions.unshift(newPrescription);
+    localStorage.setItem('prescriptions', JSON.stringify(savedPrescriptions));
+
+    // Mostrar mensaje de éxito y redireccionar
+    toast.success("Receta guardada correctamente");
     setTimeout(() => {
-      toast.success("Receta procesada correctamente");
       navigate("/history");
     }, 1500);
   };
