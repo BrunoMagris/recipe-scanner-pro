@@ -1,30 +1,27 @@
+
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Calendar, User, FileText, Pill, Clock, Printer, Share2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Navigation } from "@/components/Navigation";
+import { toast } from "sonner";
 
 const PrescriptionDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  // Datos de ejemplo - en una implementación real vendrían de una base de datos
-  const prescription = {
-    id: 1,
-    date: "2024-03-15",
-    doctor: "Dr. Juan Pérez",
-    specialization: "Médico General",
-    patient: "María González",
-    medicine: "Paracetamol",
-    dosage: "500mg",
-    frequency: "Cada 8 horas",
-    duration: "7 días",
-    instructions: "Tomar después de las comidas con abundante agua.",
-    notes: "Evitar bebidas alcohólicas durante el tratamiento.",
-    image: "https://placehold.co/600x400/png",
-    status: "Procesada"
-  };
+  // Obtener las recetas guardadas y encontrar la receta específica
+  const prescriptions = JSON.parse(localStorage.getItem('prescriptions') || '[]');
+  const prescription = prescriptions.find((p: any) => p.id === Number(id));
+
+  // Si no se encuentra la receta, redirigir al historial
+  if (!prescription) {
+    toast.error("Receta no encontrada");
+    navigate("/history");
+    return null;
+  }
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] flex flex-col">
+    <div className="min-h-screen bg-[#F8F9FA] flex flex-col pb-20">
       {/* Header */}
       <header className="py-4 px-4 bg-white shadow-sm">
         <div className="container max-w-md flex items-center justify-between">
@@ -57,7 +54,7 @@ const PrescriptionDetail = () => {
         {/* Image Preview */}
         <div className="bg-white rounded-xl p-2 shadow-sm">
           <img
-            src={prescription.image}
+            src={prescription.photo}
             alt="Prescription"
             className="w-full aspect-[4/3] object-cover rounded-lg"
           />
@@ -80,7 +77,6 @@ const PrescriptionDetail = () => {
                 <span className="text-sm">Doctor</span>
               </div>
               <p className="font-medium">{prescription.doctor}</p>
-              <p className="text-sm text-[#5AB9EA]">{prescription.specialization}</p>
             </div>
           </div>
 
@@ -116,13 +112,15 @@ const PrescriptionDetail = () => {
           </div>
 
           {/* Instructions */}
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-gray-600">
-              <FileText className="h-4 w-4" />
-              <span className="text-sm">Instrucciones</span>
+          {prescription.instructions && (
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-gray-600">
+                <FileText className="h-4 w-4" />
+                <span className="text-sm">Instrucciones</span>
+              </div>
+              <p className="text-sm text-gray-700">{prescription.instructions}</p>
             </div>
-            <p className="text-sm text-gray-700">{prescription.instructions}</p>
-          </div>
+          )}
 
           {/* Notes */}
           {prescription.notes && (
@@ -135,13 +133,15 @@ const PrescriptionDetail = () => {
 
         {/* Actions */}
         <Button
-          className="w-full h-12"
+          className="w-full h-12 bg-[#236B8E] hover:bg-[#236B8E]/90"
           onClick={() => window.print()}
         >
           <Printer className="mr-2 h-4 w-4" />
           Imprimir Receta
         </Button>
       </main>
+
+      <Navigation />
     </div>
   );
 };
