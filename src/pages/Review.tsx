@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -40,7 +39,7 @@ const Review = () => {
   };
 
   return (
-    <div className="min-h-screen bg-medical-50 flex flex-col">
+    <div className="min-h-screen bg-[#F8F9FA] flex flex-col">
       {/* Header */}
       <header className="py-4 px-4 bg-white shadow-sm">
         <div className="container max-w-md flex items-center justify-between">
@@ -205,7 +204,7 @@ const Review = () => {
             Reintentar
           </Button>
           <Button
-            className="flex-1 h-12 bg-medical-600 hover:bg-medical-700"
+            className="flex-1 h-12 bg-[#236B8E] hover:bg-[#236B8E]/90"
             onClick={handleConfirm}
             disabled={loading}
           >

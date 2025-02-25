@@ -76,7 +76,7 @@ const Scan = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col">
+    <div className="min-h-screen bg-[#333333] flex flex-col">
       {/* Camera View */}
       <div className="flex-1 relative">
         {!hasPhoto ? (
@@ -102,7 +102,7 @@ const Scan = () => {
       </div>
 
       {/* Controls */}
-      <div className="bg-gray-900 p-6 animate-slideUp">
+      <div className="bg-[#333333] p-6 animate-slideUp">
         <div className="container max-w-md flex items-center justify-between gap-4">
           <Button
             variant="outline"
@@ -119,7 +119,7 @@ const Scan = () => {
               className="w-16 h-16 rounded-full bg-white hover:bg-white/90"
               onClick={takePhoto}
             >
-              <Camera className="h-8 w-8 text-gray-900" />
+              <Camera className="h-8 w-8 text-[#333333]" />
             </Button>
           ) : (
             <div className="flex items-center gap-4">
@@ -128,11 +128,11 @@ const Scan = () => {
                 className="w-16 h-16 rounded-full bg-white hover:bg-white/90"
                 onClick={retakePhoto}
               >
-                <RotateCcw className="h-8 w-8 text-gray-900" />
+                <RotateCcw className="h-8 w-8 text-[#333333]" />
               </Button>
               <Button
                 size="icon"
-                className="w-16 h-16 rounded-full bg-medical-500 hover:bg-medical-600"
+                className="w-16 h-16 rounded-full bg-[#5AB9EA] hover:bg-[#236B8E]"
                 onClick={confirmPhoto}
               >
                 <Check className="h-8 w-8 text-white" />

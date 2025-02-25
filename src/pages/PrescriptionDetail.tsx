@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Calendar, User, FileText, Pill, Clock, Printer, Share2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -25,7 +24,7 @@ const PrescriptionDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-medical-50 flex flex-col">
+    <div className="min-h-screen bg-[#F8F9FA] flex flex-col">
       {/* Header */}
       <header className="py-4 px-4 bg-white shadow-sm">
         <div className="container max-w-md flex items-center justify-between">
@@ -51,7 +50,7 @@ const PrescriptionDetail = () => {
       {/* Main Content */}
       <main className="flex-1 container max-w-md py-6 px-4 space-y-6 animate-fadeIn">
         {/* Status Banner */}
-        <div className="bg-medical-100 text-medical-700 px-4 py-2 rounded-lg text-sm font-medium">
+        <div className="bg-[#5AB9EA]/10 text-[#236B8E] px-4 py-2 rounded-lg text-sm font-medium">
           Estado: {prescription.status}
         </div>
 
@@ -81,7 +80,7 @@ const PrescriptionDetail = () => {
                 <span className="text-sm">Doctor</span>
               </div>
               <p className="font-medium">{prescription.doctor}</p>
-              <p className="text-sm text-gray-600">{prescription.specialization}</p>
+              <p className="text-sm text-[#5AB9EA]">{prescription.specialization}</p>
             </div>
           </div>
 
@@ -103,7 +102,7 @@ const PrescriptionDetail = () => {
                   <span className="text-sm">Medicamento</span>
                 </div>
                 <p className="font-medium">{prescription.medicine}</p>
-                <p className="text-sm text-medical-600">{prescription.dosage}</p>
+                <p className="text-sm text-[#5AB9EA]">{prescription.dosage}</p>
               </div>
               <div className="space-y-1">
                 <div className="flex items-center gap-2 text-gray-600">

@@ -1,6 +1,8 @@
+
 import { Button } from "@/components/ui/button";
 import { Calendar, User, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Navigation } from "@/components/Navigation";
 
 const History = () => {
   const navigate = useNavigate();
@@ -78,6 +80,8 @@ const History = () => {
           </div>
         ))}
       </main>
+
+      <Navigation />
     </div>
   );
 };
